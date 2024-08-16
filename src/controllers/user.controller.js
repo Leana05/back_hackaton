@@ -35,16 +35,16 @@ export const getUser = async (req, res) => {
 
 // Esta función nos permite crear un usuario
 export const createNewUser = async (req, res) => {
-  const { nombre, cedula, correo, contrasena} = req.body;
+  const { Nombre, Cedula, Correo, Contrasena} = req.body;
   try {
     const [rows] = await pool.query(
       'Call spInsertUsuario(?, ?, ?, ?)',
-      [nombre, cedula, correo, contrasena]
+      [Nombre, Cedula, Correo, Contrasena]
     );
 
     res.send({
-      nombre,
-      correo
+      Nombre,
+      Correo
     });
 
   } catch (error) {
