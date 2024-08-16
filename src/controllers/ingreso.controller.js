@@ -39,7 +39,7 @@ export const getIngresos = async (req, res) => {
   // Con esta función consultamos un ingreso por Id Usuario
   export const getIngreso = async (req, res) => {
     try {
-      const [rows] = await pool.query('SELECT * FROM tblIngreso WHERE IdUsuario = ?', [req.params.IdUsuario]);
+      const [rows] = await pool.query('SELECT * FROM tblIngreso WHERE IdIngreso = ?', [req.params.IdIngreso]);
   
       if (rows.length <= 0)
         return res.status(404).json({
@@ -57,19 +57,19 @@ export const getIngresos = async (req, res) => {
 
   //  El pacth nos permite actualizar la información que deseamos, sin tener que vernos obligados a actualizar todos los campos
 export const updateIngreso = async (req, res) => {
-  const IdIngreso = req.params.cedula;
-  const {IdCategoria,Fecha,Monto} = req.body;
+  const IdIngreso = req.params.IdIngreso;
+  const {IdCategoria,Monto} = req.body;
   try {
     // throw new Error(':C')
     const [result] = await pool.query(
-      'UPDATE tblIngreso SET IdCategoria = IFNULL(?, IdCategoria), Fecha = IFNULL(?, Fecha), Monto = IFNULL(?, Monto)  WHERE IdIngreso = ?',
-      [IdCategoria,Fecha,Monto, IdIngreso]
+      "Call spUpdateIngreso(?,?,?)",
+      [IdIngreso,Monto, Ca]
     );
     console.log(result);
 
     if (result.affectedRows === 0)
       return res.status(404).json({
-        message: 'User not found',
+        message: 'Ingreso not found',
       });
 
     const [rows] = await pool.query('SELECT * FROM tblIngreso WHERE IdIngreso = ?', [IdIngreso]);
@@ -81,15 +81,18 @@ export const updateIngreso = async (req, res) => {
   }
 };
 
+
 // Función para eliminar toda la información relacionada con el usuario
 export const deleteIngreso = async (req, res) => {
+  const {IdIngreso} = [req.params.IdIngreso];
   try {
-    const [result] = await pool.query('DELETE FROM tblusuario WHERE cedula = ?', [req.params.IdUsuario]);
-    console.log(result);
+    const [result] = await pool.query(
+      'Call spDeleteIngreso(?)', [IdIngreso]
+    );
 
     if (result.affectedRows <= 0)
       return res.status(404).json({
-        message: 'User not found',
+        message: 'Ingreso no encontrado',
       });
 
     res.sendStatus(204);

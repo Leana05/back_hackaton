@@ -4,6 +4,7 @@ import userRoutes from './routes/user.route.js'
 import categoryRoutes from './routes/category.route.js'
 //import gastoRoutes from './routes/gasto.route.js'
 import ingresoRoutes from './routes/ingreso.route.js'
+import validationRoute from './routes/validation.route.js'
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use('/singup', userRoutes);
 app.use('/filtrer', categoryRoutes)
 //app.use('/Gasto', gastoRoutes);
 app.use('/finanzas', ingresoRoutes);
+app.use('/logi',validationRoute)
 
 app.use((req, res, next) => {
     res.status(404).json({
