@@ -1,0 +1,11 @@
+- npm i -y
+- npm i express
+- npm i mysql2
+- npm i nodemon -D
+- npm i morgan
+- npm i dotenv
+- npm i cors
+
+- En el archivo package.json, ir a la sección de scripts y agregar la linea "dev": "nodemon src/index.js" SOLO SI NO ESTÁ.
+- También agregar en package.json la linea "type":"module",
+- Crear un archivo llamado ".env"
